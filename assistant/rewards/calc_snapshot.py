@@ -9,7 +9,6 @@ from brownie import *
 from rich.console import Console
 
 console = Console()
-digg = interface.IDigg(Token.digg.value)
 
 nativeSetts = ["native.uniDiggWbtc", "native.sushiDiggWbtc"]
 nonNativeSetts = [
@@ -46,6 +45,7 @@ def calc_snapshot(badger, name, startBlock, endBlock, nextCycle, boosts, diggAll
         startDist = get_distributed_for_token_at(token, startTime, schedules, name)
         tokenDistribution = int(endDist) - int(startDist)
         rewardsLog.add_total_token_dist(name, token, tokenDistribution)
+        digg = interface.IDigg(Token.digg.value)
         # Distribute to users with rewards list
         # Make sure there are tokens to distribute (some geysers only
         # distribute one token)

@@ -179,6 +179,8 @@ def single_user_harvest_flow(badger: BadgerSystem, settConfig, user):
 
 
 def test_main():
+    brownie.network.main.disconnect(kill_rpc=True)
+    brownie.network.main.connect('bsc', launch_rpc=True)
     badger = connect_badger()
     user = accounts[0]
     distribute_test_ether(user, Wei("10 ether"))

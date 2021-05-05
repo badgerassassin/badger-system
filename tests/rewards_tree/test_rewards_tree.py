@@ -4,10 +4,12 @@ import secrets
 import brownie
 import pytest
 from brownie import *
+from copy import copy
 from helpers.constants import *
 from helpers.registry import registry
 from rich.console import Console
 from assistant.rewards import rewards_assistant
+from collections import namedtuple
 
 console = Console()
 
@@ -16,22 +18,24 @@ def random_32_bytes():
     return "0x" + secrets.token_hex(32)
 
 
-@pytest.fixture(scope="function", autouse="True")
-def setup(rewards_tree_unit):
-    return rewards_tree_unit
+@pytest.fixture
+def setup():
+    import pdb
+    pdb.set_trace()
+    setup_fixtures = namedtuple('literal', 'badgerTree guardian rootUpdater')(**{
+        'badgerTree': rewards_assistant.BadgerTree.at(registry.badgerTree),
+        'rootUpdater': rewards_assistant.rootUpdater,
+        'guardian': rewards_assistant.guardian
+    });
+    return setup_fixtures
 
-
-@pytest.fixture(scope="function")
-def setup_badger(badger_tree_unit):
-    return badger_tree_unit
-
-
-# @pytest.mark.skip()
 def test_root_publish(setup):
     badgerTree = setup.badgerTree
     guardian = setup.guardian
     rootUpdater = setup.rootUpdater
     user = accounts[4]
+    import pdb
+    pdb.set_trace()
 
     startingCycle = badgerTree.currentCycle()
     assert startingCycle == 0
